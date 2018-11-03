@@ -1,0 +1,79 @@
+---
+# This playbook contains docker action that will be run on "remote" host.
+
+# Install docker packages
+- name: Install docker packages
+  apt: 
+    name: [apt-transport-https, ca-certificates, curl, software-properties-common]
+    state: present
+    update_cache: yes
+  tags: 
+    - docker 
+
+# Add dockers official GPG key
+- name: Adding dockers official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    state: present
+  register: add_repository_key
+  ignore_errors: true
+  tags:
+    - docker
+
+# Add stable repository
+- name: Set up stable repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ host_distribution_release }} stable
+    state: present
+    update_cache: yes
+  tags:
+    - docker
+
+# Update apt packages
+- name: Update apt packages
+  apt: 
+    update_cache: yes
+  tags:
+    - docker
+
+# Install docker=18.06.1
+- name: Install docker
+  apt:
+    name: docker-ce=18.06.*
+    state: present
+    update_cache: yes
+  notify: Start docker on boot
+  tags:
+    - docker
+
+# Create a docker group
+- name: Creating "docker" group
+  group:
+    name: "{{ docker_group }}"
+    state: present
+  tags:
+    - docker
+
+# Add {{ admin_user }} to docker group
+- name: Adding remote "{{ admin_username }}" user to docker group
+  user:
+    name: "{{ admin_username }}"
+    group: "{{ docker_group }}"
+    append: yes
+  tags:
+    - docker
+
+# Install latest version of docker-compose
+- name: Install latest version of docker-compose
+  become: yes
+  shell: curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  tags:
+    - docker
+
+# Apply executable permission to binary
+- name: Apply executable permission to binary
+  become: yes
+  shell: chmod +x /usr/local/bin/docker-compose
+  tags:
+    - docker 

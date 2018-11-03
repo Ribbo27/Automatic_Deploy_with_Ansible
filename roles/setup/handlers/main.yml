@@ -1,0 +1,9 @@
+---
+#This playbook contains handlers that will be call in "setup" tasks.
+
+#SUDO systemctl enable docker
+- name: Start docker on boot
+  systemd:
+    name: docker
+    state: started
+    enabled: yes

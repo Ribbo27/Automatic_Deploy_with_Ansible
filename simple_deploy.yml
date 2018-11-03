@@ -1,0 +1,44 @@
+---
+  # Simple Ansible playbook example
+  - hosts: appserver
+    remote_user: "{{ appserver_username }}"
+    become: yes
+    gather_facts: false
+    pre_tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: False
+
+    vars_files: 
+      - host_vars/vault.yml	
+  
+    roles:
+      - base
+
+    tasks:
+      # Update the system
+    - name: System update
+      become: yes 
+      shell: apt update
+      become: true
+      
+      # Import setup role 
+    - name: Import setup role
+      import_role:
+        name: setup
+
+      # Create user with amdin privileges
+    - name: Create user "{{ admin_username }}" with admin access
+      user:
+        name: "{{ admin_username }}"
+        password: "{{ admin_password | password_hash('sha512') }}"
+        groups: admin
+
+      # Clone the gitlab repository
+    - name: Clone GitLab repo
+      git: 
+        repo: https://gitlab.com/sgametrio/pro-svi-so-assignment-1.git 
+        dest: /home/{{ admin_username }}/pro-svi-so-assignment-1
+
+      # Run containers with docker-compose
+    #- name: Run the containers with docker-compose exec

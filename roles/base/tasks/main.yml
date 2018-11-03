@@ -1,0 +1,30 @@
+# This playbook contains tasks related to the basic setup of the server
+
+# Install all base packages needed
+- name: Install base packages
+  apt: 
+    name: ['locales', 'build-essential', 'acl', 'ntp', 'htop', 'git', 'supervisor', 'python-pip', 'python3-pip', 'nginx' ]
+    state: present
+  tags:
+    - packages
+
+# Upgrade pip package
+- name: Upgrade pip
+  pip:
+    name: pip
+    state: latest
+  tags:
+    - packages
+
+# Create a deploy user
+#- name: Create user
+#  user:
+#    name: "{{ deploy_username }}"
+#    state: present
+
+# Create a .ssh folder for deploy user
+#- name: Create .ssh folder
+#  file:
+#    path: "/home/{{ deploy_username }}/.ssh/"
+#    state: directory
+#    mode: 0755
