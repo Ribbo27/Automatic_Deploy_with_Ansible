@@ -21,10 +21,3 @@
 #  user:
 #    name: "{{ deploy_username }}"
 #    state: present
-
-# Create a .ssh folder for deploy user
-#- name: Create .ssh folder
-#  file:
-#    path: "/home/{{ deploy_username }}/.ssh/"
-#    state: directory
-#    mode: 0755

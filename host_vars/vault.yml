@@ -4,12 +4,12 @@
 # Remote host variables
 hostname: appserver
 host_distribution_release: bionic
-appserver_username: ubuntu
-deploy_username: devTeam
+appserver_username: server_username
+deploy_username: deploy_username
 
 # User admin variables
-admin_username: ribbo
-admin_password: sbalbu
+admin_username: admin
+admin_password: admin
 
 # Miscellaneous variables
 docker_group: docker
