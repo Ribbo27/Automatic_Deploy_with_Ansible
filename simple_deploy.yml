@@ -39,6 +39,3 @@
       git: 
         repo: https://gitlab.com/sgametrio/pro-svi-so-assignment-1.git 
         dest: /home/{{ admin_username }}/pro-svi-so-assignment-1
-
-      # Run containers with docker-compose
-    #- name: Run the containers with docker-compose exec
