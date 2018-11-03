@@ -15,9 +15,3 @@
     state: latest
   tags:
     - packages
-
-# Create a deploy user
-#- name: Create user
-#  user:
-#    name: "{{ deploy_username }}"
-#    state: present
