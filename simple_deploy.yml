@@ -37,8 +37,10 @@
       # Clone the gitlab repository
     - name: Clone GitLab repo
       git: 
-        repo: https://gitlab.com/sgametrio/pro-svi-so-assignment-1.git 
-        dest: /home/{{ admin_username }}/pro-svi-so-assignment-1
-
-      # Run containers with docker-compose
-    #- name: Run the containers with docker-compose exec
+        repo: # Here should go your repo's url
+        dest: # Path where you want to clone your repo
+      
+      # Import deploy role 
+    - name: Import deploy role
+      import_role:
+        name: deploy

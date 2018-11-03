@@ -4,16 +4,12 @@
 # Remote host variables
 hostname: appserver
 host_distribution_release: bionic
-appserver_username: ubuntu
+appserver_username: server_username
+deploy_username: deploy_username
 
 # User admin variables
 admin_username: admin
 admin_password: admin
 
-# Groups name variables
+# Miscellaneous variables
 docker_group: docker
-
-# Path variables
-cloning_path: # Path where you want to clone the project
-project_path: # Path to your project folder
-env_file_path: # Path to your .env file

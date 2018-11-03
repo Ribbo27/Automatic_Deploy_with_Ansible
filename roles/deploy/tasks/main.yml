@@ -1,0 +1,37 @@
+---
+# This playbook contains all actions for build and run docker's images
+
+      # Build all containers
+    - name: Build all containers
+      become: yes 
+      command: docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+      args:
+        chdir: "{{ project_path }}" 
+      
+      # Run all containers
+    - name: Run all containers
+      become: yes
+      command: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+      args:
+        chdir: "{{ project_path }}" 
+  
+      # Composer install
+    - name: Composer install
+      become: yes
+      command: docker-compose exec -T workspace composer install --prefer-dist --no-progress --no-suggest --no-interaction
+      args:
+        chdir: "{{ project_path }}" 
+
+      # Generate .env file
+    - name: Generate .env file
+      become: yes
+      command: cp "{{ env_file_path }}".env.example "{{ env_file_path }}".env
+
+      # php artisan key:generate
+    - name: php artisan key:generate
+      become: yes
+      command: docker-compose exec -T workspace php artisan key:generate -v
+      args:
+        chdir: "{{ project_path }}" 
+
+      # TODO: update .env file with environment variables
