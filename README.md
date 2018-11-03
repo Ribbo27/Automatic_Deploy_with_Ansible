@@ -14,6 +14,8 @@ To use them, first edit the inventory file to contain ip of the machines on whic
 To encrypt vault.yml use ```ansible-vault encrypt vault.yml``` command and choose a password to decrypt. 
 To decrypt use ```ansible-vault decrypt vault.yml``` and insert password you choose during encrypt.
 
+To run Ansible playbooks type ```ansible-playbook -i inventory simple-deploy.yml``` in your project folder.
+
 ## DIRECTORY STRUCTURE
 ```shell
 .
